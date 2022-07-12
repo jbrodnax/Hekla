@@ -9,6 +9,8 @@ public class LoginManager : MonoBehaviour
 {
     public static LoginManager Instance;
     [SerializeField] public GameObject UsernameInput, PasswordInput, AddressInput;
+    public SessionInfo session;
+
     void Awake(){
         Instance = this;
     }
@@ -44,6 +46,8 @@ public class LoginManager : MonoBehaviour
                 Debug.Log(WWW.error);
             }else{
                 Debug.Log(WWW.downloadHandler.text);
+                session = SessionInfo.CreateFromJSON(WWW.downloadHandler.text);
+                Debug.Log($"Token from JSON: {session.token}");
             }
         }
     }
@@ -65,4 +69,14 @@ public class LoginManager : MonoBehaviour
         }
     }
 
+}
+[System.Serializable]
+public class SessionInfo
+{
+    public bool success;
+    public string token;
+
+    public static SessionInfo CreateFromJSON(string jsonstring){
+        return JsonUtility.FromJson<SessionInfo>(jsonstring);
+    }
 }
