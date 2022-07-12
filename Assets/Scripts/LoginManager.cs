@@ -44,10 +44,11 @@ public class LoginManager : MonoBehaviour
 
             if (WWW.result != UnityWebRequest.Result.Success){
                 Debug.Log(WWW.error);
+                // TKTK - Display error message to UI.
             }else{
                 Debug.Log(WWW.downloadHandler.text);
                 session = SessionInfo.CreateFromJSON(WWW.downloadHandler.text);
-                Debug.Log($"Token from JSON: {session.token}");
+                SceneLoaderHandoff(session, ipaddress);
             }
         }
     }
@@ -69,14 +70,9 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-}
-[System.Serializable]
-public class SessionInfo
-{
-    public bool success;
-    public string token;
-
-    public static SessionInfo CreateFromJSON(string jsonstring){
-        return JsonUtility.FromJson<SessionInfo>(jsonstring);
+    public void SceneLoaderHandoff(SessionInfo session, string address){
+        SessionManager.Instance.ExtractToken(session);
+        SessionManager.Instance.Address = address;
+        SceneLoader.Instance.Load("Home");
     }
 }
