@@ -13,7 +13,7 @@ public class ServerManager : MonoBehaviour
 
     private string ServerAddress;
     private string PortNumber;
-    private float ClockSpeed;
+    private float ClockSpeed = 1.0f;
 
     private Queue<string> messageQueue;
 
@@ -22,8 +22,9 @@ public class ServerManager : MonoBehaviour
             Instance = this;
         }
 
-        ServerAddress = SessionManager.Instance.Address;
+        ServerAddress = SessionManager.Instance.ServerAddress;
         PortNumber = "5000";
+        DontDestroyOnLoad(this.gameObject);
     }
     // Start is called before the first frame update
     async void Start()

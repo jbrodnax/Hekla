@@ -7,8 +7,8 @@ public class HomeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var token = SessionManager.Instance.Token;
+        var token = SessionManager.Instance.GetToken();
         Debug.Log($"HomeScene Started: {token}");
-        ServerManager.Instance.EnqueueMessage("{\"token\":\""+token+"\"}");
+        ServerManager.Instance.EnqueueMessage(SessionManager.Instance.GetTokenJson());
     }
 }
